@@ -9,7 +9,7 @@ $conectar=@mysql_connect($hostname,$username,$password);
 mysql_query("SET NAMES utf8"); //Soluciona el tema de las ñ y los tildes
 
 if(!$conectar){
- echo "Error al intentar conectarse con el servidor, Provablemte no exista la base";
+ echo "Error al intentar conectarse con el servidor, Probablemente no exista la base de datos";
  exit();
 }
 /*/Elegir una BD:*/
