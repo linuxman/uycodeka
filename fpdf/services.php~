@@ -1,0 +1,131 @@
+<?php
+
+include ("../conectar.php");  
+include ("../funciones/fechas.php");
+
+define('FPDF_FONTPATH','font/');
+require('mysql_table.php');
+require('mc_table.php');
+
+include("comunes.php");
+
+header("Content-Type: text/html; charset=iso-8859-1 ");
+mysql_query("SET NAMES utf8"); //Soluciona el tema de las ñ y los tildes
+
+$codcliente=$_GET["e"];
+$title="Detalle services";
+$subtitle="Listado de Respaldos";
+
+$ww=array(55,14,25,18,20,12,17);
+/*/Ttulos de las columnas*/
+$header=array('Detalle','Fecha','Equipo','Tipo','Solicitado', 'Horas', 'Estado');
+
+
+$pdf=new PDF();
+/*$pdf->Open();*/
+$pdf->AliasNbPages();
+$pdf->AddPage();
+
+$pdf->SetFont('Arial','',6);
+$contador=0;
+
+$w=array(55,14,25,18,20,12,17);
+
+$Tipo = array( 0=>"Llamada", 1=>"Service", 2=>"Mantenimiento", 3=>"Consulta");
+$estadoarray = array(0=>"Pendiente", 1=>"Asignado", 2=>"Terminado");
+$estadocolor = array(0=>"red", 1=>"blue", 2=>"green");
+
+$sel_resultado="SELECT * FROM service WHERE service.borrado=0 AND codcliente='$codcliente'";
+/*$sel_resultado=$sel_resultado."  limit 0,10";*/
+$res_resultado=mysql_query($sel_resultado);
+$contador=0;
+
+		$x = $pdf->GetX();
+		$y = $pdf->GetY();
+		$i = 0;
+
+while ($contador < mysql_num_rows($res_resultado)) { 
+
+			$y1 = $pdf->GetY();
+
+if(!empty(mysql_result($res_resultado,$contador,"detalles"))){
+	$pdf->MultiCell($w[0],3,mysql_result($res_resultado,$contador,"detalles"),'LTB');
+} else {
+	$pdf->MultiCell($w[0],3,mysql_result($res_resultado,$contador,"realizado"),'LTB');
+}
+			$y2 = $pdf->GetY();
+			$yH = $y2 - $y1;
+						
+			$pdf->SetXY($x + $w[0], $pdf->GetY() - $yH);
+
+	$pdf->Cell($w[1],$yH,implota(mysql_result($res_resultado,$contador,"fecha")),'LTB',0,'C');
+
+if ( mysql_result($res_resultado,$contador,"codequipo")!=0){
+$codequipo= mysql_result($res_resultado,$contador,"codequipo");
+$consulta="SELECT * FROM equipos WHERE borrado=0 AND `codequipo`='".$codequipo."'";
+$rs_tabla = mysql_query($consulta);
+
+	$pdf->Cell($w[2],$yH, mysql_result($rs_tabla,0,"alias"),'LRTB',0,'L');
+} else {
+	$pdf->Cell($w[2],$yH, 'Horas','LRTB',0,'L');
+}
+ if (is_numeric(mysql_result($res_resultado,$contador,"tipo") )) {
+	$pdf->Cell($w[3],$yH,$Tipo[mysql_result($res_resultado,$contador,"tipo")],'LTB',0,'L');
+ } else {
+	$pdf->Cell($w[3],$yH,mysql_result($res_resultado,$contador,"tipo"),'LTB',0,'L');
+ }							
+
+	$pdf->Cell($w[4],$yH,mysql_result($res_resultado,$contador,"solicito"),'LTB',0,'L');
+	$pdf->Cell($w[5],$yH,number_format(mysql_result($res_resultado,$contador,"horas"),2,",","."),'LTB',0,'C');
+	$pdf->Cell($w[6],$yH,$estadoarray[mysql_result($res_resultado,$contador,"estado")],'LRTB',0,'C');
+	$pdf->Ln();	
+	$contador++;
+			$i++;	
+}
+
+
+
+$nombre='../copias/service.pdf';			
+$pdf->Output($nombre,'F');
+?> 
+
+
+			<html>
+			<head>
+			<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+			<link rel="stylesheet" type="text/css" href="css/SearchBox.css" media="screen"/>
+			<link rel="stylesheet" type="text/css" href="css/login1.css" title="default" media="screen" />
+			<link rel="stylesheet" type="text/css" href="css/table.css" media="screen" />
+			
+			<link href="css/impresora.css" media="print" type="text/css" rel="stylesheet">
+			
+			<style media="screen,projection" type="text/css">
+			    /* backslash hack hides from IEmac \*/
+				    @import url(css/base.css);
+			    /* end hack */
+			</style>
+			<STYLE type="text/css"> 
+			
+			A:link {text-decoration:none;color:#0000cc;} 
+			A:visited {text-decoration:none;color:#ffcc33;} 
+			A:active {text-decoration:none;color:#ff0000;} 
+			A:hover {text-decoration:underline;color:#999999;} 
+			</STYLE> 
+			
+			    <script type="text/javascript" src="js/pdfobject.js"></script>
+			    <script type="text/javascript">
+			      window.onload = function (){
+			        var success = new PDFObject({ url: "<?php echo $nombre;?>" }).embed();
+			      };
+			    </script>
+			<title>Estudios</title>
+			</head>
+<body marginwidth="0" topmargin="0" leftmargin="0">
+	<center>
+	<div style="position: relative; width: 300px; height: 50px; background-color: #E63C1E; color: #000; padding: 15px;z-index: 2;">
+	<p>Por lo visto no tiene instalado Adobe Reader o soporte para PDF en su navegador web. <br>
+	<a href="<?php echo $nombre;?>">Click para descargar el PDF</a></p>  
+	</div>
+	</center>
+			
+</body></html>

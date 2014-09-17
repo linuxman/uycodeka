@@ -1,0 +1,66 @@
+<html>
+	<head>
+		<title>Principal</title>
+		<link href="../estilos/estilos.css" type="text/css" rel="stylesheet">
+		<script src="js/jquery.min.js"></script>
+		<script language="javascript">
+		
+var source = 'THE SOURCE';		
+	
+		function aceptar() {
+			parent.$('idOfDomElement').colorbox.close();
+		}
+
+        function start_task()
+        {
+            source = new EventSource('obtenertipocambio.php');
+             
+            //a message is received
+            source.addEventListener('message' , function(e)
+            {
+                var result = JSON.parse( e.data );
+                 
+                add_log(result.message);
+                 
+                document.getElementById('progressor').style.width = result.progress + "%";
+                 
+                if(e.data.search('TERMINATE') != -1)
+                {
+                    add_log('Received TERMINATE closing');
+                    source.close();
+                }
+            });
+             
+            source.addEventListener('error' , function(e)
+            {
+                add_log('Error occured');
+                 
+                //kill the object ?
+                source.close();
+                parent.$('idOfDomElement').colorbox.close();
+            });
+        }
+         
+        function stop_task()
+        {
+            source.close();
+            add_log('Interrupted');
+        }
+         
+        function add_log(message)
+        {
+            var r = document.getElementById('results');
+            r.innerHTML += message + '<br>';
+            r.scrollTop = r.scrollHeight;
+        }
+		
+		</script>
+	</head>
+	<body onload="start_task();">
+	
+<div style="border:1px solid #ccc; width:300px; height:20px; overflow:auto; background:#eee;">
+            <div id="progressor" style="background:#07c; width:0%; height:100%;"></div>
+        </div>	
+	
+	</body>
+</html>

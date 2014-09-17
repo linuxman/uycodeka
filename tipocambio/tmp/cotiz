@@ -1,0 +1,6 @@
+#!/bin/bash
+cd tmp
+wget http://www.bcu.gub.uy/Cotizaciones/$1
+linea=`cat $1 | grep "USA BILLETE"`
+echo ${linea:(-7)} > $1
+cd ..

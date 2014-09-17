@@ -1,0 +1,1099 @@
+<?xml version="1.0"?>
+<pfsense>
+	<version>10.1</version>
+	<lastchange/>
+	<theme>pfsense_ng</theme>
+	<sysctl>
+		<item>
+			<descr><![CDATA[Disable the pf ftp proxy handler.]]></descr>
+			<tunable>debug.pfftpproxy</tunable>
+			<value>default</value>
+		</item>
+		<item>
+			<descr><![CDATA[Increase UFS read-ahead speeds to match current state of hard drives and NCQ. More information here: http://ivoras.sharanet.org/blog/tree/2010-11-19.ufs-read-ahead.html]]></descr>
+			<tunable>vfs.read_max</tunable>
+			<value>default</value>
+		</item>
+		<item>
+			<descr><![CDATA[Set the ephemeral port range to be lower.]]></descr>
+			<tunable>net.inet.ip.portrange.first</tunable>
+			<value>default</value>
+		</item>
+		<item>
+			<descr><![CDATA[Drop packets to closed TCP ports without returning a RST]]></descr>
+			<tunable>net.inet.tcp.blackhole</tunable>
+			<value>default</value>
+		</item>
+		<item>
+			<descr><![CDATA[Do not send ICMP port unreachable messages for closed UDP ports]]></descr>
+			<tunable>net.inet.udp.blackhole</tunable>
+			<value>default</value>
+		</item>
+		<item>
+			<descr><![CDATA[Randomize the ID field in IP packets (default is 0: sequential IP IDs)]]></descr>
+			<tunable>net.inet.ip.random_id</tunable>
+			<value>default</value>
+		</item>
+		<item>
+			<descr><![CDATA[Drop SYN-FIN packets (breaks RFC1379, but nobody uses it anyway)]]></descr>
+			<tunable>net.inet.tcp.drop_synfin</tunable>
+			<value>default</value>
+		</item>
+		<item>
+			<descr><![CDATA[Enable sending IPv4 redirects]]></descr>
+			<tunable>net.inet.ip.redirect</tunable>
+			<value>default</value>
+		</item>
+		<item>
+			<descr><![CDATA[Enable sending IPv6 redirects]]></descr>
+			<tunable>net.inet6.ip6.redirect</tunable>
+			<value>default</value>
+		</item>
+		<item>
+			<descr><![CDATA[Generate SYN cookies for outbound SYN-ACK packets]]></descr>
+			<tunable>net.inet.tcp.syncookies</tunable>
+			<value>default</value>
+		</item>
+		<item>
+			<descr><![CDATA[Maximum incoming/outgoing TCP datagram size (receive)]]></descr>
+			<tunable>net.inet.tcp.recvspace</tunable>
+			<value>default</value>
+		</item>
+		<item>
+			<descr><![CDATA[Maximum incoming/outgoing TCP datagram size (send)]]></descr>
+			<tunable>net.inet.tcp.sendspace</tunable>
+			<value>default</value>
+		</item>
+		<item>
+			<descr><![CDATA[IP Fastforwarding]]></descr>
+			<tunable>net.inet.ip.fastforwarding</tunable>
+			<value>default</value>
+		</item>
+		<item>
+			<descr><![CDATA[Do not delay ACK to try and piggyback it onto a data packet]]></descr>
+			<tunable>net.inet.tcp.delayed_ack</tunable>
+			<value>default</value>
+		</item>
+		<item>
+			<descr><![CDATA[Maximum outgoing UDP datagram size]]></descr>
+			<tunable>net.inet.udp.maxdgram</tunable>
+			<value>default</value>
+		</item>
+		<item>
+			<descr><![CDATA[Handling of non-IP packets which are not passed to pfil (see if_bridge(4))]]></descr>
+			<tunable>net.link.bridge.pfil_onlyip</tunable>
+			<value>default</value>
+		</item>
+		<item>
+			<descr><![CDATA[Set to 0 to disable filtering on the incoming and outgoing member interfaces.]]></descr>
+			<tunable>net.link.bridge.pfil_member</tunable>
+			<value>default</value>
+		</item>
+		<item>
+			<descr><![CDATA[Set to 1 to enable filtering on the bridge interface]]></descr>
+			<tunable>net.link.bridge.pfil_bridge</tunable>
+			<value>default</value>
+		</item>
+		<item>
+			<descr><![CDATA[Allow unprivileged access to tap(4) device nodes]]></descr>
+			<tunable>net.link.tap.user_open</tunable>
+			<value>default</value>
+		</item>
+		<item>
+			<descr><![CDATA[Randomize PID's (see src/sys/kern/kern_fork.c: sysctl_kern_randompid())]]></descr>
+			<tunable>kern.randompid</tunable>
+			<value>default</value>
+		</item>
+		<item>
+			<descr><![CDATA[Maximum size of the IP input queue]]></descr>
+			<tunable>net.inet.ip.intr_queue_maxlen</tunable>
+			<value>default</value>
+		</item>
+		<item>
+			<descr><![CDATA[Disable CTRL+ALT+Delete reboot from keyboard.]]></descr>
+			<tunable>hw.syscons.kbd_reboot</tunable>
+			<value>default</value>
+		</item>
+		<item>
+			<descr><![CDATA[Enable TCP Inflight mode]]></descr>
+			<tunable>net.inet.tcp.inflight.enable</tunable>
+			<value>default</value>
+		</item>
+		<item>
+			<descr><![CDATA[Enable TCP extended debugging]]></descr>
+			<tunable>net.inet.tcp.log_debug</tunable>
+			<value>default</value>
+		</item>
+		<item>
+			<descr><![CDATA[Set ICMP Limits]]></descr>
+			<tunable>net.inet.icmp.icmplim</tunable>
+			<value>default</value>
+		</item>
+		<item>
+			<descr><![CDATA[TCP Offload Engine]]></descr>
+			<tunable>net.inet.tcp.tso</tunable>
+			<value>default</value>
+		</item>
+		<item>
+			<descr><![CDATA[Maximum socket buffer size]]></descr>
+			<tunable>kern.ipc.maxsockbuf</tunable>
+			<value>default</value>
+		</item>
+	</sysctl>
+	<system>
+		<optimization>normal</optimization>
+		<hostname>proxy</hostname>
+		<domain>fundacionlogosofica.edu.uy</domain>
+		<dnsserver>200.40.220.245</dnsserver>
+		<dnsserver>192.168.10.200</dnsserver>
+		<dnsallowoverride>on</dnsallowoverride>
+		<group>
+			<name>all</name>
+			<description><![CDATA[All Users]]></description>
+			<scope>system</scope>
+			<gid>1998</gid>
+		</group>
+		<group>
+			<name>admins</name>
+			<description><![CDATA[System Administrators]]></description>
+			<scope>system</scope>
+			<gid>1999</gid>
+			<member>0</member>
+			<priv>page-all</priv>
+		</group>
+		<user>
+			<name>admin</name>
+			<descr><![CDATA[System Administrator]]></descr>
+			<scope>system</scope>
+			<groupname>admins</groupname>
+			<password>$1$.lq5G4on$vrBuA8Qfrb/dRbp3YMOIz0</password>
+			<uid>0</uid>
+			<priv>user-shell-access</priv>
+			<md5-hash>3a4b4c4dde494d2cec3e0ea68e437e17</md5-hash>
+			<nt-hash>38384204595792c8cb40f2d3adf52566</nt-hash>
+			<expires/>
+			<authorizedkeys/>
+			<ipsecpsk/>
+		</user>
+		<nextuid>2000</nextuid>
+		<nextgid>2000</nextgid>
+		<timezone>America/Montevideo</timezone>
+		<time-update-interval>300</time-update-interval>
+		<timeservers>0.pfsense.pool.ntp.org</timeservers>
+		<webgui>
+			<protocol>http</protocol>
+			<ssl-certref>51d35332734c2</ssl-certref>
+		</webgui>
+		<disablenatreflection>yes</disablenatreflection>
+		<disablesegmentationoffloading/>
+		<disablelargereceiveoffloading/>
+		<ipv6allow/>
+		<kill_states/>
+		<maximumstates/>
+		<aliasesresolveinterval/>
+		<maximumtables/>
+		<maximumtableentries/>
+		<reflectiontimeout/>
+		<tftpinterface>wan</tftpinterface>
+		<bogons>
+			<interval>monthly</interval>
+		</bogons>
+	</system>
+	<interfaces>
+		<wan>
+			<enable/>
+			<if>vr0</if>
+			<descr><![CDATA[WAN]]></descr>
+			<ipaddr>dhcp</ipaddr>
+			<alias-address/>
+			<alias-subnet>32</alias-subnet>
+		</wan>
+		<lan>
+			<enable/>
+			<if>rl0</if>
+			<ipaddr>192.168.10.1</ipaddr>
+			<subnet>24</subnet>
+			<media/>
+			<mediaopt/>
+		</lan>
+	</interfaces>
+	<staticroutes/>
+	<dhcpd>
+		<lan>
+			<enable/>
+			<range>
+				<from>192.168.10.10</from>
+				<to>192.168.10.199</to>
+			</range>
+			<defaultleasetime/>
+			<maxleasetime/>
+			<netmask/>
+			<failover_peerip/>
+			<gateway>192.168.10.1</gateway>
+			<domain>fundacionlogosofica.edu.uy</domain>
+			<domainsearchlist/>
+			<ddnsdomain/>
+			<tftp/>
+			<ldap/>
+			<filename/>
+			<rootpath/>
+			<numberoptions/>
+			<nextserver/>
+			<dhcpleaseinlocaltime/>
+			<mac_allow/>
+			<mac_deny/>
+			<dnsserver>192.168.10.200</dnsserver>
+			<dnsserver>200.40.30.245</dnsserver>
+		</lan>
+	</dhcpd>
+	<pptpd>
+		<mode/>
+		<redir/>
+		<localip/>
+		<remoteip/>
+	</pptpd>
+	<dnsmasq>
+		<hosts>
+			<host>s-main</host>
+			<domain>fundacionlogosofica.edu.uy</domain>
+			<ip>192.168.10.200</ip>
+			<descr><![CDATA[Servidor DNS]]></descr>
+		</hosts>
+		<custom_options/>
+		<regdhcp/>
+		<enable/>
+	</dnsmasq>
+	<snmpd>
+		<syslocation/>
+		<syscontact/>
+		<rocommunity>public</rocommunity>
+	</snmpd>
+	<diag>
+		<ipv6nat/>
+	</diag>
+	<bridge/>
+	<syslog/>
+	<nat>
+		<ipsecpassthru>
+			<enable/>
+		</ipsecpassthru>
+		<rule>
+			<source>
+				<any/>
+			</source>
+			<destination>
+				<any/>
+				<port>3389</port>
+			</destination>
+			<protocol>tcp</protocol>
+			<target>192.168.10.200</target>
+			<local-port>3389</local-port>
+			<interface>wan</interface>
+			<descr><![CDATA[RDP]]></descr>
+			<associated-rule-id>nat_51d41a9f4e8168.70342295</associated-rule-id>
+		</rule>
+		<rule>
+			<source>
+				<any/>
+			</source>
+			<destination>
+				<any/>
+				<port>4000</port>
+			</destination>
+			<protocol>tcp</protocol>
+			<target>192.168.10.248</target>
+			<local-port>4000</local-port>
+			<interface>wan</interface>
+			<descr><![CDATA[NX]]></descr>
+			<associated-rule-id>nat_53c40c71288d75.77761285</associated-rule-id>
+			<updated>
+				<time>1405357169</time>
+				<username>admin@192.168.10.248</username>
+			</updated>
+			<created>
+				<time>1405357169</time>
+				<username>admin@192.168.10.248</username>
+			</created>
+		</rule>
+	</nat>
+	<filter>
+		<rule>
+			<source>
+				<any/>
+			</source>
+			<interface>wan</interface>
+			<protocol>tcp</protocol>
+			<destination>
+				<address>192.168.10.200</address>
+				<port>3389</port>
+			</destination>
+			<descr><![CDATA[NAT RDP]]></descr>
+			<associated-rule-id>nat_51d41a9f4e8168.70342295</associated-rule-id>
+		</rule>
+		<rule>
+			<id/>
+			<type>pass</type>
+			<interface>lan</interface>
+			<tag/>
+			<tagged/>
+			<max/>
+			<max-src-nodes/>
+			<max-src-conn/>
+			<max-src-states/>
+			<statetimeout/>
+			<statetype>keep state</statetype>
+			<os/>
+			<source>
+				<network>lan</network>
+			</source>
+			<destination>
+				<any/>
+			</destination>
+			<descr><![CDATA[Default allow LAN to any rule]]></descr>
+		</rule>
+		<rule>
+			<id/>
+			<type>block</type>
+			<interface>lan</interface>
+			<ipprotocol>inet46</ipprotocol>
+			<tag/>
+			<tagged/>
+			<max/>
+			<max-src-nodes/>
+			<max-src-conn/>
+			<max-src-states/>
+			<statetimeout/>
+			<statetype>keep state</statetype>
+			<os/>
+			<protocol>tcp</protocol>
+			<source>
+				<network>lan</network>
+			</source>
+			<destination>
+				<address>Facebook</address>
+				<port>80-443</port>
+			</destination>
+			<descr><![CDATA[Facebook]]></descr>
+			<updated>
+				<time>1382533231</time>
+				<username>admin@192.168.10.118</username>
+			</updated>
+		</rule>
+		<rule>
+			<id/>
+			<type>reject</type>
+			<interface>lan</interface>
+			<tag/>
+			<tagged/>
+			<max/>
+			<max-src-nodes/>
+			<max-src-conn/>
+			<max-src-states/>
+			<statetimeout/>
+			<statetype>keep state</statetype>
+			<os/>
+			<source>
+				<any/>
+			</source>
+			<destination>
+				<address>199.16.0.0/16</address>
+			</destination>
+			<descr><![CDATA[Block_TwitterII]]></descr>
+		</rule>
+		<rule>
+			<id/>
+			<type>reject</type>
+			<interface>lan</interface>
+			<tag/>
+			<tagged/>
+			<max/>
+			<max-src-nodes/>
+			<max-src-conn/>
+			<max-src-states/>
+			<statetimeout/>
+			<statetype>keep state</statetype>
+			<os/>
+			<source>
+				<any/>
+			</source>
+			<destination>
+				<address>199.59.0.0/16</address>
+			</destination>
+			<descr><![CDATA[Block_TwitterI]]></descr>
+		</rule>
+		<rule>
+			<id/>
+			<type>reject</type>
+			<interface>lan</interface>
+			<tag/>
+			<tagged/>
+			<max/>
+			<max-src-nodes/>
+			<max-src-conn/>
+			<max-src-states/>
+			<statetimeout/>
+			<statetype>keep state</statetype>
+			<os/>
+			<source>
+				<network>lan</network>
+			</source>
+			<destination>
+				<address>69.171.0.0/16</address>
+			</destination>
+			<descr><![CDATA[Block_FaceBookIII]]></descr>
+		</rule>
+		<rule>
+			<id/>
+			<type>reject</type>
+			<interface>lan</interface>
+			<tag/>
+			<tagged/>
+			<max/>
+			<max-src-nodes/>
+			<max-src-conn/>
+			<max-src-states/>
+			<statetimeout/>
+			<statetype>keep state</statetype>
+			<os/>
+			<source>
+				<network>lan</network>
+			</source>
+			<destination>
+				<address>173.252.0.0/16</address>
+			</destination>
+			<descr><![CDATA[Block_FacebookII]]></descr>
+		</rule>
+		<rule>
+			<id/>
+			<type>reject</type>
+			<interface>lan</interface>
+			<tag/>
+			<tagged/>
+			<max/>
+			<max-src-nodes/>
+			<max-src-conn/>
+			<max-src-states/>
+			<statetimeout/>
+			<statetype>keep state</statetype>
+			<os/>
+			<source>
+				<network>lan</network>
+			</source>
+			<destination>
+				<address>66.220.0.0/16</address>
+			</destination>
+			<descr><![CDATA[Block_Facebook]]></descr>
+		</rule>
+		<rule>
+			<id/>
+			<type>reject</type>
+			<interface>lan</interface>
+			<tag/>
+			<tagged/>
+			<max/>
+			<max-src-nodes/>
+			<max-src-conn/>
+			<max-src-states/>
+			<statetimeout/>
+			<statetype>keep state</statetype>
+			<os/>
+			<source>
+				<network>lan</network>
+			</source>
+			<destination>
+				<address>224.0.0.0/16</address>
+			</destination>
+			<descr><![CDATA[Block_Facebook]]></descr>
+		</rule>
+		<rule>
+			<id/>
+			<type>reject</type>
+			<interface>lan</interface>
+			<ipprotocol>inet</ipprotocol>
+			<tag/>
+			<tagged/>
+			<max/>
+			<max-src-nodes/>
+			<max-src-conn/>
+			<max-src-states/>
+			<statetimeout/>
+			<statetype>keep state</statetype>
+			<os/>
+			<protocol>tcp</protocol>
+			<source>
+				<any/>
+			</source>
+			<destination>
+				<address>50.56.0.0/16</address>
+			</destination>
+			<descr><![CDATA[Humblebundle]]></descr>
+			<created>
+				<time>1382534581</time>
+				<username>admin@192.168.10.118</username>
+			</created>
+			<updated>
+				<time>1382541512</time>
+				<username>admin@192.168.10.113</username>
+			</updated>
+		</rule>
+		<rule>
+			<source>
+				<any/>
+			</source>
+			<interface>wan</interface>
+			<protocol>tcp</protocol>
+			<destination>
+				<address>192.168.10.248</address>
+				<port>4000</port>
+			</destination>
+			<descr><![CDATA[NAT NX]]></descr>
+			<associated-rule-id>nat_53c40c71288d75.77761285</associated-rule-id>
+			<created>
+				<time>1405357169</time>
+				<username>NAT Port Forward</username>
+			</created>
+		</rule>
+	</filter>
+	<shaper/>
+	<ipsec>
+		<preferoldsa/>
+	</ipsec>
+	<aliases>
+		<alias>
+			<name>Facebook</name>
+			<address>74.119.76.0/22 65.201.208.24/29 65.204.104.128/28 66.93.78.176/29 66.92.180.48/28 67.200.105.48/30 69.63.176.0/21 69.171.224.0/19 74.119.76.0/22 204.15.20.0/22 66.220.144.0/20 173.252.64.0/18 66.199.37.136/29 69.63.184.0/21 69.171.255.0/24 69.171.240.0/20 69.171.239.0/24 69.171.224.0/20 66.220.159.0/24 66.220.152.0/21 66.220.144.0/21 204.15.20.0/22</address>
+			<descr><![CDATA[Bloquear Facebook]]></descr>
+			<type>network</type>
+			<detail><![CDATA[74.119.76.0/22||65.201.208.24  /29||65.204.104.128   /28||66.93.78.176   /29||66.92.180.48   /28||67.200.105.48   /30||69.63.176.0 /20||69.171.224.0   /19||74.119.76.0   /22||204.15.20.0   /22||66.220.144.0   /20||173.252.64.0   /18||66.199.37.136   /29||69.63.184.0/21||69.171.255.0/24||69.171.240.0/20||69.171.239.0/24||69.171.224.0/20||66.220.159.0/24||66.220.152.0/21||66.220.144.0/21||204.15.20.0/22]]></detail>
+		</alias>
+	</aliases>
+	<proxyarp/>
+	<cron>
+		<item>
+			<minute>1,31</minute>
+			<hour>0-5</hour>
+			<mday>*</mday>
+			<month>*</month>
+			<wday>*</wday>
+			<who>root</who>
+			<command>/usr/bin/nice -n20 adjkerntz -a</command>
+		</item>
+		<item>
+			<minute>1</minute>
+			<hour>3</hour>
+			<mday>1</mday>
+			<month>*</month>
+			<wday>*</wday>
+			<who>root</who>
+			<command>/usr/bin/nice -n20 /etc/rc.update_bogons.sh</command>
+		</item>
+		<item>
+			<minute>*/60</minute>
+			<hour>*</hour>
+			<mday>*</mday>
+			<month>*</month>
+			<wday>*</wday>
+			<who>root</who>
+			<command>/usr/bin/nice -n20 /usr/local/sbin/expiretable -v -t 3600 sshlockout</command>
+		</item>
+		<item>
+			<minute>1</minute>
+			<hour>1</hour>
+			<mday>*</mday>
+			<month>*</month>
+			<wday>*</wday>
+			<who>root</who>
+			<command>/usr/bin/nice -n20 /etc/rc.dyndns.update</command>
+		</item>
+		<item>
+			<minute>*/60</minute>
+			<hour>*</hour>
+			<mday>*</mday>
+			<month>*</month>
+			<wday>*</wday>
+			<who>root</who>
+			<command>/usr/bin/nice -n20 /usr/local/sbin/expiretable -v -t 3600 virusprot</command>
+		</item>
+		<item>
+			<minute>30</minute>
+			<hour>12</hour>
+			<mday>*</mday>
+			<month>*</month>
+			<wday>*</wday>
+			<who>root</who>
+			<command>/usr/bin/nice -n20 /etc/rc.update_urltables</command>
+		</item>
+		<item>
+			<task_name>squid_rotate_logs</task_name>
+			<minute>0</minute>
+			<hour>0</hour>
+			<mday>*</mday>
+			<month>*</month>
+			<wday>*</wday>
+			<who>root</who>
+			<command>/bin/rm /var/squid/cache/swap.state; /usr/local/sbin/squid -k rotate</command>
+		</item>
+		<item>
+			<task_name>squid_check_swapstate</task_name>
+			<minute>*/15</minute>
+			<hour>*</hour>
+			<mday>*</mday>
+			<month>*</month>
+			<wday>*</wday>
+			<who>root</who>
+			<command>/usr/local/pkg/swapstate_check.php</command>
+		</item>
+		<item>
+			<minute>0</minute>
+			<hour>17</hour>
+			<mday>*</mday>
+			<month>*</month>
+			<wday>*</wday>
+			<who>root</who>
+			<command>/usr/local/bin/mail_reports_generate.php 0 &amp;</command>
+		</item>
+		<item>
+			<minute>0</minute>
+			<hour>0</hour>
+			<mday>*</mday>
+			<month>*</month>
+			<wday>*</wday>
+			<who>root</who>
+			<command>/usr/bin/nice -n20 /usr/pbi/squidguard-squid3-i386/etc/rc.d/squidGuard_logrotate</command>
+		</item>
+	</cron>
+	<wol/>
+	<rrd>
+		<enable/>
+	</rrd>
+	<load_balancer>
+		<monitor_type>
+			<name>ICMP</name>
+			<type>icmp</type>
+			<descr><![CDATA[ICMP]]></descr>
+			<options/>
+		</monitor_type>
+		<monitor_type>
+			<name>TCP</name>
+			<type>tcp</type>
+			<descr><![CDATA[Generic TCP]]></descr>
+			<options/>
+		</monitor_type>
+		<monitor_type>
+			<name>HTTP</name>
+			<type>http</type>
+			<descr><![CDATA[Generic HTTP]]></descr>
+			<options>
+				<path>/</path>
+				<host/>
+				<code>200</code>
+			</options>
+		</monitor_type>
+		<monitor_type>
+			<name>HTTPS</name>
+			<type>https</type>
+			<descr><![CDATA[Generic HTTPS]]></descr>
+			<options>
+				<path>/</path>
+				<host/>
+				<code>200</code>
+			</options>
+		</monitor_type>
+		<monitor_type>
+			<name>SMTP</name>
+			<type>send</type>
+			<descr><![CDATA[Generic SMTP]]></descr>
+			<options>
+				<send/>
+				<expect>220 *</expect>
+			</options>
+		</monitor_type>
+	</load_balancer>
+	<widgets>
+		<sequence>system_information-container:col1:show,captive_portal_status-container:col1:close,carp_status-container:col1:close,cpu_graphs-container:col1:close,gateways-container:col1:close,gmirror_status-container:col1:close,installed_packages-container:col1:close,interface_statistics-container:col1:close,interfaces-container:col2:show,ipsec-container:col2:close,load_balancer_status-container:col2:close,log-container:col2:close,picture-container:col2:close,rss-container:col2:close,services_status-container:col2:show,traffic_graphs-container:col2:show,openvpn-container:col2:none,wake_on_lan-container:col2:none</sequence>
+	</widgets>
+	<revision>
+		<time>1405357171</time>
+		<description><![CDATA[admin@192.168.10.248: /firewall_nat.php made unknown change]]></description>
+		<username>admin@192.168.10.248</username>
+	</revision>
+	<openvpn/>
+	<l7shaper>
+		<container/>
+	</l7shaper>
+	<dnshaper/>
+	<cert>
+		<refid>51d35332734c2</refid>
+		<descr><![CDATA[webConfigurator default]]></descr>
+		<crt>LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUVLRENDQTVHZ0F3SUJBZ0lKQUpJNW43R1FJdC8rTUEwR0NTcUdTSWIzRFFFQkJRVUFNSUcvTVFzd0NRWUQKVlFRR0V3SlZVekVTTUJBR0ExVUVDQk1KVTI5dFpYZG9aWEpsTVJFd0R3WURWUVFIRXdoVGIyMWxZMmwwZVRFVQpNQklHQTFVRUNoTUxRMjl0Y0dGdWVVNWhiV1V4THpBdEJnTlZCQXNUSms5eVoyRnVhWHBoZEdsdmJtRnNJRlZ1CmFYUWdUbUZ0WlNBb1pXY3NJSE5sWTNScGIyNHBNU1F3SWdZRFZRUURFeHREYjIxdGIyNGdUbUZ0WlNBb1pXY3MKSUZsUFZWSWdibUZ0WlNreEhEQWFCZ2txaGtpRzl3MEJDUUVXRFVWdFlXbHNJRUZrWkhKbGMzTXdIaGNOTVRNdwpOekF5TWpJeU5EVXdXaGNOTVRneE1qSXpNakl5TkRVd1dqQ0J2ekVMTUFrR0ExVUVCaE1DVlZNeEVqQVFCZ05WCkJBZ1RDVk52YldWM2FHVnlaVEVSTUE4R0ExVUVCeE1JVTI5dFpXTnBkSGt4RkRBU0JnTlZCQW9UQzBOdmJYQmgKYm5sT1lXMWxNUzh3TFFZRFZRUUxFeVpQY21kaGJtbDZZWFJwYjI1aGJDQlZibWwwSUU1aGJXVWdLR1ZuTENCegpaV04wYVc5dUtURWtNQ0lHQTFVRUF4TWJRMjl0Ylc5dUlFNWhiV1VnS0dWbkxDQlpUMVZTSUc1aGJXVXBNUnd3CkdnWUpLb1pJaHZjTkFRa0JGZzFGYldGcGJDQkJaR1J5WlhOek1JR2ZNQTBHQ1NxR1NJYjNEUUVCQVFVQUE0R04KQURDQmlRS0JnUURMeXdRUnRxVW5IMUpQMExxMTBLamVuVyt0OFBMemova2prdnpjMXRyVDVBazRNTDRPRkoyYQppTlZYMFFaaWIzczNqOFJ5UktwTzgvT3ZabVBCRzFoRGJyVzRWL2Q0b0E0T2N2M1UyUWdqTU5tQ21pNFVsN3FXCkxCWTlQWmdWSUVWMEFZUGlUamJuc3ExenNBb2lFUWVGb3ZIUlc3RUlUelEyMWFvVlJaUGhDd0lEQVFBQm80SUIKS0RDQ0FTUXdIUVlEVlIwT0JCWUVGSTgrYW5MRlpyZVBWVXRaSDZYbzd4TC9jT3p2TUlIMEJnTlZIU01FZ2V3dwpnZW1BRkk4K2FuTEZacmVQVlV0Wkg2WG83eEwvY096dm9ZSEZwSUhDTUlHL01Rc3dDUVlEVlFRR0V3SlZVekVTCk1CQUdBMVVFQ0JNSlUyOXRaWGRvWlhKbE1SRXdEd1lEVlFRSEV3aFRiMjFsWTJsMGVURVVNQklHQTFVRUNoTUwKUTI5dGNHRnVlVTVoYldVeEx6QXRCZ05WQkFzVEprOXlaMkZ1YVhwaGRHbHZibUZzSUZWdWFYUWdUbUZ0WlNBbwpaV2NzSUhObFkzUnBiMjRwTVNRd0lnWURWUVFERXh0RGIyMXRiMjRnVG1GdFpTQW9aV2NzSUZsUFZWSWdibUZ0ClpTa3hIREFhQmdrcWhraUc5dzBCQ1FFV0RVVnRZV2xzSUVGa1pISmxjM09DQ1FDU09aK3hrQ0xmL2pBTUJnTlYKSFJNRUJUQURBUUgvTUEwR0NTcUdTSWIzRFFFQkJRVUFBNEdCQUx1RmVFcTIxR09oZ1FBZnZvaWdJNEV5ZXFEOApjM1l2OFJPMVFmak5GdmRuOXV3SWN0akE4ZGl1Z2tYVTVOVjFnZFNvVWpJbFcrUm5IaFVHRTRDTlZVNVIybUNNCjJ3TmJTYnFqd0VjSGprbS9Hb0JhTlBic1RkUUdEdkJPUUVHeFV1QnI4MWZqdmRlRm1BSUtHL0dtTmxjZzRCR1AKNFFaNTVoSytpQTRuSUtKNgotLS0tLUVORCBDRVJUSUZJQ0FURS0tLS0tCg==</crt>
+		<prv>R2VuZXJhdGluZyBSU0EgcHJpdmF0ZSBrZXksIDEwMjQgYml0IGxvbmcgbW9kdWx1cwouLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4rKysrKysKLi4uLi4uLi4uLi4uLi4uKysrKysrCmUgaXMgNjU1MzcgKDB4MTAwMDEpCi0tLS0tQkVHSU4gUlNBIFBSSVZBVEUgS0VZLS0tLS0KTUlJQ1hnSUJBQUtCZ1FETHl3UVJ0cVVuSDFKUDBMcTEwS2plblcrdDhQTHpqL2tqa3Z6YzF0clQ1QWs0TUw0TwpGSjJhaU5WWDBRWmliM3MzajhSeVJLcE84L092Wm1QQkcxaERiclc0Vi9kNG9BNE9jdjNVMlFnak1ObUNtaTRVCmw3cVdMQlk5UFpnVklFVjBBWVBpVGpibnNxMXpzQW9pRVFlRm92SFJXN0VJVHpRMjFhb1ZSWlBoQ3dJREFRQUIKQW9HQkFJczBLNTFsNHozcitTK241a0dYUENLRDYrc21zTzJLSktZV0d6OUdTOGQ4OW9jNVZEa04vL0cxRWZXZwpRL290S0Q5MXByeGZCdTVUV05zdzEyYnFwTWlCckJCWU1jbFZlTHhxVFRLTjh3dmgrYTBNWmI5TWZRNDNhYkVICmowVUlORlpEVzd2blBRWDNQWkF0YVF6YlFBQ1RzekcvdWxRdllQMGR0Rzd5dVNIeEFrRUErWll6aThwQzJ0TEgKcmpVQmU4ZW1VUktiUGZoZm5qYlZYNjBCWkVBSGYvUkFhVTREaWFpWmFuZlBIaFZCQ0NuNnhLRytWTjJLTEFsYwp1dWt3Y1hCdDl3SkJBTkVIbEpvMDNVQVhFUloxeVVyOUtGdkNZVk9kcVc3aHQ3RVdoMHNiekdRalV2VU8zS2hrClhyUlhDdjhoS1owY01sdHk5Z29WMXpsS3NNRS9oZnYvTUkwQ1FRRExNb29NeVVMY3ZMWnRFaUovRC9CTUdRWGkKMGcrbTA2V3NHMElDeUU1UzBoeU9uMEVxRmVXeFZKRi9RSGFObXYvYWpvUlN1M3IrbHpDenk1M3cvVVBKQWtFQQowQkF0bUxsYUtidE1KUUVsVm1GYlZNck5PZi9MY1RWNE5PdHB6QmRsZ1ordnFZSWJuZm9hVW9QNXpDNWtUNkNMCmQzK2M3RGtGUEYvZVJOMUlMcWU2MlFKQUtpb3g5eXVVV2hQZFVraWRsMkY5RzdCek5SS3FCUkZzOXhCVHErYzgKMXVsOTFhYkpjN3BBNGxPSjNMQk9Hdzd6Ti8rblJaaXBFQUFGRlR1MEJVYlEvZz09Ci0tLS0tRU5EIFJTQSBQUklWQVRFIEtFWS0tLS0tCg==</prv>
+	</cert>
+	<ppps/>
+	<installedpackages>
+		<package>
+			<name>squidGuard</name>
+			<descr><![CDATA[High perfomance web proxy URL filter. Requires proxy Squid 2.x package.]]></descr>
+			<website>http://www.squidGuard.org/</website>
+			<maintainer>dv_serg@mail.ru</maintainer>
+			<category>Network Management</category>
+			<version>1.4_4 pkg v.1.9.6</version>
+			<status>Beta</status>
+			<required_version>1.1</required_version>
+			<depends_on_package_base_url>https://files.pfsense.org/packages/8/All/</depends_on_package_base_url>
+			<depends_on_package>squidGuard-1.4_4.tbz</depends_on_package>
+			<depends_on_package>db41-4.1.25_4.tbz</depends_on_package>
+			<depends_on_package>cyrus-sasl-2.1.26_2.tbz</depends_on_package>
+			<depends_on_package_pbi>squidguard-1.4_4-i386.pbi</depends_on_package_pbi>
+			<build_port_path>/usr/ports/www/squidguard</build_port_path>
+			<build_port_path>/usr/ports/databases/db41</build_port_path>
+			<build_port_path>/usr/ports/security/cyrus-sasl2</build_port_path>
+			<build_pbi>
+				<ports_before>databases/db41 security/cyrus-sasl2</ports_before>
+				<port>www/squidguard</port>
+			</build_pbi>
+			<build_options>squidGuard_UNSET_FORCE=SQUID32 SQUID33;squidGuard_SET=SAMPLE_BL SASL LDAP SQUID27;squid_UNSET_FORCE=DNS_HELPER IPFILTER PINGER STACKTRACES STRICT_HTTP_DESC USERAGENT_LOG WCCPV2;squid_SET=PF LDAP_AUTH NIS_AUTH SASL_AUTH ARP_ACL AUFS CACHE_DIGESTS CARP COSS DELAY_POOLS FOLLOW_XFF HTCP IDENT KERB_AUTH KQUEUE LARGEFILE REFERER_LOG SNMP SSL VIA_DB WCCP;SQUID_UID=proxy;SQUID_GID=proxy</build_options>
+			<config_file>https://packages.pfsense.org/packages/config/squidGuard/squidguard.xml</config_file>
+			<configurationfile>squidguard.xml</configurationfile>
+		</package>
+		<package>
+			<name>mailreport</name>
+			<descr><![CDATA[Allows you to setup periodic e-mail reports containing command output, log file contents, and RRD graphs.]]></descr>
+			<category>Network Management</category>
+			<version>2.0.12</version>
+			<status>Stable</status>
+			<required_version>2.0</required_version>
+			<config_file>https://packages.pfsense.org/packages/config/mailreport/mailreport.xml</config_file>
+			<configurationfile>mailreport.xml</configurationfile>
+		</package>
+		<package>
+			<name>squidGuard-squid3</name>
+			<descr><![CDATA[High perfomance web proxy URL filter. Requires proxy Squid 3.x package.]]></descr>
+			<website>http://www.squidGuard.org/</website>
+			<maintainer>dv_serg@mail.ru</maintainer>
+			<category>Network Management</category>
+			<version>1.4_4 pkg v.1.9.5</version>
+			<status>Experimental</status>
+			<required_version>2.1</required_version>
+			<depends_on_package_base_url>https://files.pfsense.org/packages/8/All/</depends_on_package_base_url>
+			<depends_on_package_pbi>squidguard-squid3-1.4_4-i386.pbi</depends_on_package_pbi>
+			<build_pbi>
+				<ports_before>www/squid33 databases/db41 security/cyrus-sasl2</ports_before>
+				<port>www/squidguard</port>
+				<custom_name>squidguard-squid3</custom_name>
+			</build_pbi>
+			<build_options>OPTIONS_SET=FETCH LDAP;squidGuard_UNSET_FORCE=SQUID27;squidGuard_SET=SAMPLE_BL SASL SQUID33;c-icap_UNSET_FORCE=IPV6 squid_UNSET_FORCE=AUTH_SMB AUTH_SQL DNS_HELPER FS_COSS ESI SNMP ECAP STACKTRACES STRICT_HTTP TP_IPF TP_IPFW VIA_DB DEBUG DOCS EXAMPLES;squid_SET=ARP_ACL AUTH_KERB AUTH_LDAP AUTH_NIS AUTH_SASL CACHE_DIGESTS DELAY_POOLS FOLLOW_XFF TP_PF MSSL_CRTD WCCP WCCPV2 FS_AUFS HTCP ICAP ICMP IDENT IPV6 KQUEUE LARGEFILE SSL SSL_CRTD</build_options>
+			<config_file>https://packages.pfsense.org/packages/config/squidGuard/squidguard.xml</config_file>
+			<configurationfile>squidguard.xml</configurationfile>
+		</package>
+		<package>
+			<name>squid3</name>
+			<internal_name>squid</internal_name>
+			<descr><![CDATA[High performance web proxy cache.&lt;br /&gt;
+			It combines squid as a proxy server with it's capabilities of acting as a HTTP / HTTPS reverse proxy.&lt;br /&gt;
+			It includes an Exchange-Web-Access (OWA) Assistant.]]></descr>
+			<pkginfolink>https://forum.pfsense.org/index.php/topic,48347.0.html</pkginfolink>
+			<website>http://www.squid-cache.org/</website>
+			<category>Network</category>
+			<version>3.1.20 pkg 2.0.7</version>
+			<status>beta</status>
+			<required_version>2.0</required_version>
+			<maintainer>marcellocoutinho@gmail.com fernando@netfilter.com.br seth.mos@dds.nl mfuchs77@googlemail.com jimp@pfsense.org</maintainer>
+			<depends_on_package_base_url>https://files.pfsense.org/packages/8/All/</depends_on_package_base_url>
+			<depends_on_package>squid-3.1.20.tbz</depends_on_package>
+			<depends_on_package>libwww-5.4.0_4.tbz</depends_on_package>
+			<build_pbi>
+				<ports_before>www/libwww</ports_before>
+				<port>www/squid31</port>
+				<ports_after>www/squid_radius_auth</ports_after>
+			</build_pbi>
+			<build_options>c-icap_UNSET_FORCE=IPV6;squid_UNSET_FORCE=AUTH_SMB AUTH_SQL DNS_HELPER FS_COSS ESI SNMP ECAP STACKTRACES STRICT_HTTP TP_IPF TP_IPFW VIA_DB DEBUG DOCS EXAMPLES;squid_SET=ARP_ACL AUTH_KERB AUTH_LDAP AUTH_NIS AUTH_SASL CACHE_DIGESTS DELAY_POOLS FOLLOW_XFF TP_PF MSSL_CRTD WCCP WCCPV2 FS_AUFS HTCP ICAP ICMP IDENT IPV6 KQUEUE LARGEFILE SSL SSL_CRTD</build_options>
+			<config_file>https://packages.pfsense.org/packages/config/squid3/31/squid.xml</config_file>
+			<configurationfile>squid.xml</configurationfile>
+			<depends_on_package_pbi>squid-3.1.22_1-i386.pbi</depends_on_package_pbi>
+			<filter_rule_function>squid_generate_rules</filter_rule_function>
+		</package>
+		<package>
+			<name>TFTP</name>
+			<website/>
+			<descr><![CDATA[Trivial File Transport Protocol is a very simple file transfer protocol. Often used with routers, voip phones and more.]]></descr>
+			<category>Services</category>
+			<pkginfolink/>
+			<config_file>https://packages.pfsense.org/packages/config/tftp2/tftp.xml</config_file>
+			<depends_on_package_base_url>https://files.pfsense.org/packages/8/All/</depends_on_package_base_url>
+			<version>2.0</version>
+			<status>Stable</status>
+			<required_version>2.0</required_version>
+			<configurationfile>tftp.xml</configurationfile>
+			<filter_rule_function>tftp_generate_rules</filter_rule_function>
+		</package>
+		<menu>
+			<name>Email Reports</name>
+			<tooltiptext>Setup periodic email reports.</tooltiptext>
+			<section>Status</section>
+			<url>/status_mail_report.php</url>
+		</menu>
+		<menu>
+			<name>Proxy filter</name>
+			<tooltiptext>Modify the proxy server's filter settings</tooltiptext>
+			<section>Services</section>
+			<url>/pkg_edit.php?xml=squidguard.xml&amp;id=0</url>
+		</menu>
+		<menu>
+			<name>Proxy server</name>
+			<tooltiptext>Modify the proxy server's settings</tooltiptext>
+			<section>Services</section>
+			<url>/pkg_edit.php?xml=squid.xml&amp;id=0</url>
+		</menu>
+		<menu>
+			<name>Reverse Proxy</name>
+			<tooltiptext>Modify the proxy reverse server's settings</tooltiptext>
+			<section>Services</section>
+			<url>/pkg_edit.php?xml=squid_reverse_general.xml&amp;id=0</url>
+		</menu>
+		<menu>
+			<name>TFTP</name>
+			<tooltiptext>Add or Remove files for TFTP.</tooltiptext>
+			<section>Services</section>
+			<configfile>tftp.xml</configfile>
+			<url>tftp_files.php</url>
+		</menu>
+		<service>
+			<name>squidGuard</name>
+			<description><![CDATA[Proxy server filter Service]]></description>
+			<executable>squidGuard</executable>
+		</service>
+		<service>
+			<name>squid</name>
+			<rcfile>squid.sh</rcfile>
+			<executable>squid</executable>
+			<description><![CDATA[Proxy server Service]]></description>
+		</service>
+		<service>
+			<name>tftp</name>
+			<executable>inetd</executable>
+			<description><![CDATA[TFTP daemon]]></description>
+		</service>
+		<squid>
+			<config>
+				<active_interface>lan</active_interface>
+				<proxy_port>3128</proxy_port>
+				<icp_port/>
+				<allow_interface>on</allow_interface>
+				<transparent_proxy>on</transparent_proxy>
+				<patch_cp/>
+				<private_subnet_proxy_off/>
+				<defined_ip_proxy_off/>
+				<defined_ip_proxy_off_dest/>
+				<dns_v4_first/>
+				<dns_nameservers/>
+				<log_enabled/>
+				<log_dir>/var/squid/logs</log_dir>
+				<log_rotate/>
+				<visible_hostname>localhost</visible_hostname>
+				<admin_email>admin@localhost</admin_email>
+				<error_language>es</error_language>
+				<disable_xforward/>
+				<disable_via/>
+				<uri_whitespace>strip</uri_whitespace>
+				<disable_squidversion>on</disable_squidversion>
+				<custom_options>redirect_program /usr/pbi/squidguard-squid3-i386/bin/squidGuard -c /usr/pbi/squidguard-squid3-i386/etc/squidGuard/squidGuard.conf;redirector_bypass off;url_rewrite_children 5</custom_options>
+				<custom_options_squid3/>
+			</config>
+		</squid>
+		<squidguardgeneral>
+			<config>
+				<squidguard_enable>on</squidguard_enable>
+				<ldap_enable/>
+				<ldapbinddn/>
+				<ldapbindpass/>
+				<stripntdomain/>
+				<striprealm/>
+				<ldapversion>2</ldapversion>
+				<enable_guilog>on</enable_guilog>
+				<enable_log>on</enable_log>
+				<log_rotation>on</log_rotation>
+				<adv_blankimg/>
+				<blacklist>on</blacklist>
+				<blacklist_proxy/>
+				<blacklist_url>http://www.shallalist.de/Downloads/shallalist.tar.gz</blacklist_url>
+			</config>
+		</squidguardgeneral>
+		<squidguarddefault>
+			<config>
+				<dest>!Expresion !Block_PornoII !Juegos !BloqueoII !BloqueoIII !BlockJuegosIV !BlockeoJuegosVI !JuegosVarios !blk_BL_aggressive !blk_BL_chat !blk_BL_downloads !blk_BL_hacking !blk_BL_hobby_games-misc !blk_BL_hobby_games-online !blk_BL_porn !blk_BL_sex_lingerie !blk_BL_violence all</dest>
+				<notallowingip>on</notallowingip>
+				<deniedmessage>Se esta monitoreando su actividad en internet. Sea precavido</deniedmessage>
+				<redirect_mode>rmod_int_bpg</redirect_mode>
+				<redirect/>
+				<safesearch>on</safesearch>
+				<rewrite>safesearch</rewrite>
+				<enablelog>on</enablelog>
+			</config>
+		</squidguarddefault>
+		<squidcache>
+			<config>
+				<harddisk_cache_size>20480</harddisk_cache_size>
+				<harddisk_cache_system>ufs</harddisk_cache_system>
+				<harddisk_cache_location>/var/squid/cache</harddisk_cache_location>
+				<memory_cache_size>256</memory_cache_size>
+				<minimum_object_size>0</minimum_object_size>
+				<maximum_object_size>4</maximum_object_size>
+				<maximum_objsize_in_mem>32</maximum_objsize_in_mem>
+				<level1_subdirs>16</level1_subdirs>
+				<memory_replacement_policy>heap GDSF</memory_replacement_policy>
+				<cache_replacement_policy>heap LFUDA</cache_replacement_policy>
+				<cache_swap_low>90</cache_swap_low>
+				<cache_swap_high>95</cache_swap_high>
+				<donotcache/>
+				<enable_offline/>
+			</config>
+		</squidcache>
+		<squidguarddest>
+			<config>
+				<name>Expresion</name>
+				<domains/>
+				<urls/>
+				<expressions>(.*\/.*\.(zip|rar|exe|msi))(.*(google|yahoo).*(search_query|keywords|search|query|q|p)=.*(\+|\%20)*(minecraft).*(\-|\+|\%20).*(minecraft).*)search?q=minecraft&amp;oq=min&amp;aqs=chrome.0.69i59j69i57j69i59j69i60l2j0.1087j0j7&amp;sourceid=chrome&amp;es_sm=93&amp;ie=UTF-8#q=minecraft</expressions>
+				<redirect_mode>rmod_none</redirect_mode>
+				<redirect/>
+				<description><![CDATA[Expresiones Varias]]></description>
+				<enablelog/>
+			</config>
+			<config>
+				<name>Block_PornoII</name>
+				<domains>7his.com youporn.com redtube.com pertardas.com cholutube.com puteros.com incestos.net www.orgasmatrix.com weheartit.com www.videodemaduras.com www.totoporno.com www.ultraporno.com www.byteporno.com www.petardas.mobi www.youjizz.com xhamster.com ovejanegra.peru.com listas.20minutos.es es.bongacams.com www.manhub.com www.zonapornogay.com es.youporngay.com</domains>
+				<urls/>
+				<expressions>prono|sex|milf|ares|putas|concha|maduras|petardas|ovejanegra</expressions>
+				<redirect_mode>rmod_int</redirect_mode>
+				<redirect>Enlace bloqueado!!!</redirect>
+				<description><![CDATA[Block Porn]]></description>
+				<enablelog/>
+			</config>
+			<config>
+				<name>Juegos</name>
+				<domains>www.friv.com www.juegos.com www.juegosjuegos.com www.juegosdiarios.com es.juegos.yahoo.com www.rinconjuegos.com www.juegosagogo.com www.tudiscoverykids.com www.nick.com www.nickelodeon.es  www.minijuegos.com www.pequejuegos.com www.mediometro.com juegos.lainformacion.com www.dajuegos.com www.juegosfan.com univisionjuegos.miniclip.com juegos.latino.msn.com www.qjuegos.com www.juegomaniac.com www.a10.com www.geengo.com.uy juegos.microsiervos.com www.disney.es kizi.com weheartit.com twitter.com www.pituligames.com www.totaljerkface.com www.compucalitv.com www.nplay.com</domains>
+				<urls/>
+				<expressions>mail|casino|game|friv|juegos|juegosjuegos|juegosdiarios|es.juegos.yahoo|rinconjuegos|juegosagogo|tudiscoverykids|nick|nickelodeon|minijuegos|pequejuegos|mediometro|juegos.lainformacion|dajuegos|juegosfan|univisionjuegos.miniclip|juegos.latino.msn.|qjuegos|juegomaniac|a10|geengo|juegos.microsiervos|disney.es|kizi.com|weheartit.com|twitter.com|pituligames.com|totaljerkface.com|compucalitv.com|nplay.com</expressions>
+				<redirect_mode>rmod_int_bpg</redirect_mode>
+				<redirect>Juegos en clase???</redirect>
+				<description><![CDATA[Bloqueo Juegos]]></description>
+				<enablelog/>
+			</config>
+			<config>
+				<name>BloqueoII</name>
+				<domains>z6.com www.juegosdefutbol.net www.pinkemu.com funkypotato.com canvasrider.com www.battlefieldheroes.com socialclub.rockstargames.com login.live.com chrome.google.com elbruto.es www.kbhgames.com epicduel.artix.com www.friv.com www.mundogaturro.com www.solomario.com www.masquejuegos.es www.netjoven.pe www.humblebundle.com www.juegos.jocuri-unity3d.com canvasrider.org www.emzi.com www.vadejuegos.com www.kongregate.com www.macrojuegos.com mario-bros.dajuegos.com www.gratisjuegos.org fenglee.com mundonick.com onemorelevel.com popcap.com</domains>
+				<urls/>
+				<expressions>z6.com www.juegosdefutbol.net www.pinkemu.com funkypotato.com canvasrider.com www.battlefieldheroes.com socialclub.rockstargames.com login.live.com chrome.google.com elbruto.es www.kbhgames.com epicduel.artix.com www.friv.com www.mundogaturro.com www.solomario.com www.masquejuegos.es www.netjoven.pe www.humblebundle.com www.juegos.jocuri-unity3d.com canvasrider.org www.emzi.com www.vadejuegos.com www.kongregate.com www.macrojuegos.com mario-bros.dajuegos.com MinecraftSP www.gratisjuegos.org mundogaturro flashgameclubs gaturro juegosgt taringa friv1000games friv10 gameforge fenglee.com mundonick.com onemorelevel.com popcap.com</expressions>
+				<redirect_mode>rmod_int_bpg</redirect_mode>
+				<redirect>Juegos en clase?</redirect>
+				<description><![CDATA[Bloqueo Juegos II]]></description>
+				<enablelog/>
+			</config>
+			<config>
+				<name>BloqueoIII</name>
+				<domains>swgb.heavengames.com ageofempires.wikia.com www.thepcmanwebsite.com us.battle.net www.humblebundle.com www.juegosfutbol.com www.gamesnr1.com www.1dthisisus-movie.com www.juegodeamor.com www.ispajuegos.com www.minijuegostop.com.mx www.onedirectionmusic.com orteil.dashnet.org steamcommunity.com facebook-game.com www.mousebreaker.com www.sportsheads.co.uk www.friv.co www.gazo.com es.pog.com mobile.twitter.com juegosdevestirbebes.co instagram.com 6.hidemyass.com www.mdzol.com www.sonicomusica.com www.fulltono.com www.freeonlinegames.com www.mp3xd.com www.miniclip.com www.stickpage.com www.inkagames.com www.kulbotjuegos.com www.onlinegames.cat</domains>
+				<urls/>
+				<expressions>heavengames ageofempires thepcmanwebsite STACRAFT starcraft us.battle.net humblebundle www.juegosfutbol.com www.gamesnr1.com 1dthisisus www.juegodeamor.com www.ispajuegos.com www.minijuegostop.com.mx www.onedirectionmusic.com orteil.dashnet.org steamcommunity.com facebook-game.com www.mousebreaker.com www.sportsheads.co.uk www.friv.co www.gazo.com es.pog.com mobile.twitter.com juegosdevestirbebes.co instagram.com 6.hidemyass.com www.mdzol.com www.sonicomusica.com www.fulltono.com www.mp3xd.com www.freeonlinegames.com www.miniclip.com www.stickpage.com www.inkagames.com www.kulbotjuegos.com www.onlinegames.cat</expressions>
+				<redirect_mode>rmod_int_bpg</redirect_mode>
+				<redirect>Juegos en clase?</redirect>
+				<description><![CDATA[Bloqueo de juegos]]></description>
+				<enablelog/>
+			</config>
+			<config>
+				<name>BlockJuegosIV</name>
+				<domains>supermeatboy.com juegosparados.net 31.media.tumblr.com www.online3dgames.net elbruto.muxxu.com friv.com.uy www.keepbusy.net www.juegosjuegos.asia www.juegosdefutbol.org www.silvergames.com www.abcjuegos.net www.agame.com www.chulojuegos.com www.musica.com www.dan-dare.org www.minijuegos.es cso.iahgames.com weba20.com www.juegosfrivolo.com www.frivening.com www.juegosfrivolo.com www.frivening.com www.3djuegos.com www.elotrolado.net 2ksports.com jugargratisjuegosonline.blogspot.com www.twoplayergames.org www.zapjuegos.com www.jocmania.com es.y8.com www.speeleiland.nl www.juegoswapos.es www.juegosdechicas.com friv.com</domains>
+				<urls/>
+				<expressions>supermeatboy.com juegosparados.net 31.media.tumblr.com www.online3dgames.net elbruto.muxxu.com friv.com.uy www.keepbusy.net www.juegosjuegos.asia www.juegosdefutbol.org www.silvergames.com www.abcjuegos.net www.agame.com www.chulojuegos.com www.musica.com www.dan-dare.org www.minijuegos.es cso.iahgames.com weba20.com www.juegosfrivolo.com www.frivening.com www.juegosfrivolo.com www.frivening.com www.3djuegos.com www.elotrolado.net 2ksports.com jugargratisjuegosonline.blogspot.com www.twoplayergames.org www.zapjuegos.com www.jocmania.com es.y8.com www.speeleiland.nl www.juegoswapos.es www.juegosdechicas.com friv.com</expressions>
+				<redirect_mode>rmod_int_bpg</redirect_mode>
+				<redirect>Juegos en clase?</redirect>
+				<description><![CDATA[Bloqueo de mas juegos]]></description>
+				<enablelog/>
+			</config>
+			<config>
+				<name>BlockeoJuegosVI</name>
+				<domains>www.frip.com www.myplayyard.com www.box10.com mariobros.trijuegos.com www.tojuegos.com www.disneylatino.com www.juegosdevioletta.info games4future.com www.puffgames.com nintendo8.com www.tripletsandus.com www.games.todojuegosgratis.es www.juganding.com www.toplaying.com nesbox.com www.jugarconjuegos.com blog.facilweb.net www.nescafeplay.com uy.game-game.com manobros.com www.jorigames.com www.onlinemania.org www.seriesyonkis.com www.muchgames.com flashgamesplayer.com juegospin.com dalealplay.com 1980-games.com</domains>
+				<urls/>
+				<expressions>www.frip.com www.myplayyard.com www.box10.com mariobros.trijuegos.com www.tojuegos.com www.disneylatino.com www.juegosdevioletta.info games4future.com www.puffgames.com nintendo8.com www.tripletsandus.com www.games.todojuegosgratis.es www.juganding.com www.toplaying.com nesbox.com www.jugarconjuegos.com blog.facilweb.net www.nescafeplay.com uy.game-game.com manobros.com www.jorigames.com www.onlinemania.org www.seriesyonkis.com www.muchgames.com flashgamesplayer.com juegospin.com dalealplay.com 1980-games.com</expressions>
+				<redirect_mode>rmod_int_bpg</redirect_mode>
+				<redirect/>
+				<description><![CDATA[BloqueoJuegos]]></description>
+				<enablelog/>
+			</config>
+			<config>
+				<name>JuegosVarios</name>
+				<domains>8bbit.com serieonline.net letsplaysnes.com free.com abc.es toongames.org gvcarvajalj.blogspot.com game-oldies.com juegossd.com holtgames.com topgames.me assaultfirela.com games2win.com faly.com arcadecow.com participacion.elpais.com.uy paisdelosjuegos.com.uy seriespepito.com magic-kinder.com friv.com games2girls.com armorgames.com juegospara.net gratismusica.org mp3sfinder.com sharebeast.com putlocker.com noticiasdelmundo.org adf.ly freemp3blok.com cpmnetwork.adbooth.com mega.co.nz mp3rabbit.com filecrop.com zippyshare.com flipline.com papaloie.net juegosdepapaloie.com</domains>
+				<urls/>
+				<expressions>8bbit.com serieonline.net letsplaysnes.com free.com abc.es toongames.org gvcarvajalj.blogspot.com game-oldies.com juegossd.com holtgames.com topgames.me assaultfirela.com games2win.com faly.com arcadecow.com participacion.elpais.com.uy paisdelosjuegos.com.uy seriespepito.com magic-kinder.com friv.com games2girls.com armorgames.com juegospara.net gratismusica.org mp3sfinder.com sharebeast.com putlocker.com noticiasdelmundo.org adf.ly freemp3blok.com cpmnetwork.adbooth.com mega.co.nz mp3rabbit.com filecrop.com zippyshare.com flipline.com papaloie.net juegosdepapaloie.net minecraft</expressions>
+				<redirect_mode>rmod_none</redirect_mode>
+				<redirect/>
+				<description><![CDATA[Juegos Varios]]></description>
+				<enablelog/>
+			</config>
+		</squidguarddest>
+		<squidguardacl/>
+		<tftpd>
+			<config>
+				<tftpdinterface>wan,lan</tftpdinterface>
+			</config>
+		</tftpd>
+		<pfjailctltemplates>
+			<config>
+				<templates/>
+			</config>
+		</pfjailctltemplates>
+		<tab>
+			<text>Files</text>
+			<url>tftp_files.php</url>
+		</tab>
+	</installedpackages>
+	<gateways/>
+	<notifications>
+		<growl>
+			<ipaddress/>
+			<password/>
+			<name>PHP-Growl</name>
+			<notification_name>pfSense growl alert</notification_name>
+		</growl>
+		<smtp>
+			<ipaddress>mail.mcc.com.uy</ipaddress>
+			<port>25</port>
+			<ssl>checked</ssl>
+			<notifyemailaddress>soporte@mcc.com.uy</notifyemailaddress>
+			<username>respaldo@mcc.com.uy</username>
+			<password>mcc[423].</password>
+			<fromaddress>respaldos@mcc.com.uy</fromaddress>
+		</smtp>
+	</notifications>
+	<mailreports>
+		<schedule>
+			<descr><![CDATA[Report Proxy]]></descr>
+			<frequency>daily</frequency>
+			<timeofday>17</timeofday>
+			<submit>Save</submit>
+			<id>0</id>
+			<cmd/>
+			<log>
+				<row>
+					<logfile>squidGuard.log</logfile>
+					<lines>4</lines>
+					<detail/>
+					<submit>Save</submit>
+					<reportid>0</reportid>
+				</row>
+			</log>
+			<row>
+				<graph>system-throughput.rrd</graph>
+				<style>inverse</style>
+				<timespan>8hour</timespan>
+				<period>absolute</period>
+				<submit>Save</submit>
+				<reportid>0</reportid>
+			</row>
+			<schedule_friendly>Daily at 17:00</schedule_friendly>
+		</schedule>
+	</mailreports>
+	<dhcrelay/>
+	<dhcpdv6/>
+	<dhcrelay6/>
+	<dyndnses/>
+</pfsense>

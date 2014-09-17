@@ -1,0 +1,668 @@
+<?php
+
+include("/var/www/html/servicemcc/conexion.php");
+include("/var/www/html/servicemcc/clientes/backup/class/class.phpmailer.php");
+
+$imap='';
+
+
+//error_reporting(E_ALL);
+//ini_set('display_errors', true);
+
+header("Content-Type: text/html; charset=iso-8859-1 ");
+header("Content-Type: text/html; charset=utf-8");
+
+function  cambiaf_a_normal( $fecha ){
+ ereg (  "([0-9]{2,4})-([0-9]{1,2})-([0-9]{1,2})" ,  $fecha ,  $mifecha );
+ $fechafinal = $mifecha [ 3 ]. "/" . $mifecha [ 2 ]. "/" . $mifecha [ 1 ];
+return $fechafinal;
+ }
+
+function  cambiaf_barra( $fecha ){
+ ereg (  "([0-9]{1,2})-([0-9]{1,2})-([0-9]{2,4})" ,  $fecha ,  $mifecha );
+ $fechafinal = $mifecha [ 1 ]. "/" . $mifecha [ 2 ]. "/" . $mifecha [ 3 ];
+return $fechafinal;
+ }
+
+function  cambiaf_orden( $fecha ){
+ ereg (  "([0-9]{1,2})/([0-9]{1,2})/([0-9]{2,4})" ,  $fecha ,  $mifecha );
+ $fechafinal = $mifecha [ 2 ]. "/" . $mifecha [ 1 ]. "/" . $mifecha [ 3 ];
+return $fechafinal;
+ } 
+
+function  cambiaf_a_mysql( $fecha ){
+ ereg (  "([0-9]{1,2})/([0-9]{1,2})/([0-9]{2,4})" ,  $fecha ,  $mifecha );
+ $fechafinal = $mifecha [ 3 ]. "-" . $mifecha [ 2 ]. "-" . $mifecha [ 1 ];
+return  $fechafinal ;
+}
+
+    $imapaddress = "{barullo.zonaexterior.org:993/imap/ssl/novalidate-cert}";
+    $imapmainbox = "INBOX";
+    $maxmessagecount = 400;
+    $user="respaldos@mcc.com.uy";
+	 $password="mcc[423].";
+    display_mail_summary($imapaddress, $imapmainbox, $user, $password, $maxmessagecount);
+
+
+function extract_unit($string, $start, $end)
+{
+	$pos = stripos($string, $start);
+	$str = substr($string, $pos);
+	$str_two = substr($str, strlen($start));
+	$second_pos = stripos($str_two, $end);
+	$str_three = substr($str_two, 0, $second_pos);
+	$unit = trim($str_three); /*/ remove whitespaces*/
+	return $unit;
+}
+
+function getBody($uid, $imap) {
+    $body = get_part($imap, $uid, "TEXT/HTML");
+    /*/ if HTML body is empty, try getting text body*/
+    if ($body == "") {
+        $body = get_part($imap, $uid, "TEXT/PLAIN");
+    }
+    return $body;
+}
+
+function get_part($imap, $uid, $mimetype, $structure = false, $partNumber = false) {
+    if (!$structure) {
+           $structure = imap_fetchstructure($imap, $uid, FT_UID);
+    }
+    if ($structure) {
+        if ($mimetype == get_mime_type($structure)) {
+            if (!$partNumber) {
+                $partNumber = 1;
+            }
+            $text = imap_fetchbody($imap, $uid, $partNumber, FT_UID);
+            switch ($structure->encoding) {
+                case 3: return imap_base64($text);
+                case 4: return imap_qprint($text);
+                default: return $text;
+           }
+       }
+
+        /*/ multipart */
+        if ($structure->type == 1) {
+            foreach ($structure->parts as $index => $subStruct) {
+                $prefix = "";
+                if ($partNumber) {
+                    $prefix = $partNumber . ".";
+                }
+            	 $imap='';
+
+                $data = get_part($imap, $uid, $mimetype, $subStruct, $prefix . ($index + 1));
+                if ($data) {
+                    return $data;
+                }
+            }
+        }
+    }
+    return false;
+}
+
+function get_mime_type($structure) {
+    $primaryMimetype = array("TEXT", "MULTIPART", "MESSAGE", "APPLICATION", "AUDIO", "IMAGE", "VIDEO", "OTHER");
+
+    if ($structure->subtype) {
+       return $primaryMimetype[(int)$structure->type] . "/" . $structure->subtype;
+    }
+    return "TEXT/PLAIN";
+}
+
+function display_mail_summary($imapaddress, $imapmainbox, $imapuser, $imappassword, $maxmessagecount)
+{
+    $imapaddressandbox = $imapaddress . $imapmainbox;
+
+    $connection = imap_open ($imapaddressandbox, $imapuser, $imappassword)
+        or die("Can't connect to '" . $imapaddress . 
+        "' as user '" . $imapuser . 
+        "' with password '" . $imappassword .
+        "': " . imap_last_error());
+
+    if (!$imap) {
+        print imap_last_error();
+    }  
+  
+	$totalmessagecount = imap_num_msg($connection) 
+		or die("No hay mensajes para mostrar: " . imap_last_error());    
+
+	if ($totalmessagecount<$maxmessagecount)
+		$displaycount = $totalmessagecount;
+	else
+		$displaycount = $maxmessagecount;
+
+   /* echo $totalmessagecount . " mensaje/s<br/><br/>";*/
+    
+$check = imap_mailboxmsginfo($connection);
+    $size = number_format($check->Size / 1024, 2);
+    /*echo "Tamaño total {$size}kb.\n<p>";  */  
+  
+	$CobianCount=0;
+	$MccCount=0;
+	$AcroniCount=0;  
+/*///////--------------------------------------------------------------------------------------*/
+$imap=$connection;
+$numMessages = imap_num_msg($imap);
+/*////////////Comienzo a recorrer todos los mails*/
+$z=0;
+$xz=0;
+for ($i = $numMessages; $i > ($numMessages - $totalmessagecount); $i--) {
+	$z++;
+    $header = imap_header($imap, $i);
+    
+/*/if ($header->Unseen == "U") {*/
+	
+    $fromInfo = $header->from[0];
+    $replyInfo = $header->reply_to[0];
+
+    $details = array(
+        "fromAddr" => (isset($fromInfo->mailbox) && isset($fromInfo->host))
+            ? $fromInfo->mailbox . "@" . $fromInfo->host : "",
+        "fromName" => (isset($fromInfo->personal))
+            ? $fromInfo->personal : "",
+        "replyAddr" => (isset($replyInfo->mailbox) && isset($replyInfo->host))
+            ? $replyInfo->mailbox . "@" . $replyInfo->host : "",
+        "replyName" => (isset($replyTo->personal))
+            ? $replyto->personal : "",
+        "subject" => (isset($header->subject))
+            ? $header->subject : "",
+        "udate" => (isset($header->udate))
+            ? $header->udate : ""
+    );
+
+    $uid = imap_uid($imap, $i);
+    
+	 $class = ($header->Unseen == "U") ? "unreadMsg" : "readMsg";
+	 $cliente=$details["fromName"];
+
+	 
+ // $message =imap_body($imap, $i)	or die("Can't fetch body for message " . $i . " : " . imap_last_error());
+			
+  /*/ getBody($uid, $imap); //imap_fetchbody($imap, $uid,"1");*/
+ $message = getBody($uid, $imap);
+
+/********** Para CobianBK **********************/
+
+ $pos = strpos($message,"Amanita");
+
+if($pos !== false) {
+	$version= "Cobian Backup 9";
+	$cliente="";	
+	$very=9;	
+	/*/echo extract_unit($details["subject"], "[", "]");*/
+	$items = array("terminado.");
+	$aux=53;
+	$found=1;
+}
+
+
+$pos = strpos($details["subject"],"Cobian Backup 10");
+if($pos !== false and $very!=9) {
+	$version= "Cobian Backup 10";
+	/*/echo extract_unit($details["subject"], "[", "]");*/
+	$items = array("*** La tarea");
+	$aux=21;
+	$found=1;
+}
+$pos = strpos($message,"Cobian Backup 10");
+if($pos !== false and $very!=9) {
+	$version= "Cobian Backup 10";
+	/*/echo extract_unit($details["subject"], "[", "]");*/
+	$items = array("*** La tarea");
+	$aux=21;
+	$found=1;
+}
+$pos = strpos($details["subject"],"Cobian Backup 11");
+if($pos !== false and $very!=9) {
+	$version= "Cobian Backup 11";
+	/*/echo extract_unit($details["subject"], "(", ")");*/
+	$items = array("** Respaldo terminado para la tarea ");
+	$aux=21;
+	$found=1;
+}
+/*///////////////////////////////////*/
+$pos = strpos($cliente,"Cobian Backup 11");
+if($pos !== false and $very!=9) {
+	$version= "Cobian Backup 11";
+	$items = array("** Respaldo terminado para la tarea ");
+	$aux=21;
+	$found=1;
+}
+
+	$Equipo=extract_unit($details["subject"], "(", ")");
+
+/************* Para acronis ******************************/
+
+$pos = strpos($details["subject"],"[ABR11.5]");
+if($pos !== false) {
+	$version= "Acronis 11.5";
+	$Equipo=extract_unit($details["subject"], "(", ")");
+	$items = array("Tarea '");
+	$aux=21;
+	$found=2;
+}
+$pos = strpos($cliente,"[ABR11.5]");
+if($pos !== false) {
+	$version= "Acronis 11.5";
+	$items = array("Tarea '");
+	$aux=21;
+	$found=2;
+}
+
+echo $pos = strpos($cliente,"[MCC]");
+if($pos !== false) {
+	$version= "MCC BK";
+	$items = array("Tarea '");
+	$aux=21;
+	$found=3;
+	//echo "encontré mcc<br>";
+}
+echo $pos = strpos($details["subject"],"[MCC]");
+if($pos !== false) {
+	$version= "MCC BK";
+	$Equipo=extract_unit($details["subject"], "(", ")");
+	$items = array("Tarea '");
+	$aux=21;
+	$found=3;
+	//echo "encontré mcc<br>";
+}
+
+
+
+/*///////////////////////////////////////////////////*/
+   $appearsCount = 0;
+   $Count=0;
+
+if ($found===3) {   
+/////////////////// MCC //////////////////////
+	$NombreCliente=explode("-", $Equipo);
+	$buscar=$NombreCliente[0];
+	$EquipoUsuario=$NombreCliente[1];
+
+
+if (!empty($buscar)) { 
+$sql_cliente="SELECT * FROM  `clientes` WHERE  `empresa` LIKE  '%".$buscar."%'";
+
+	/*echo $sql_cliente."<br>";*/
+	$con_cliente=mysql_query($sql_cliente);
+	if ($row=mysql_fetch_array($con_cliente)) {
+		$clientenom=$row['nombre']." ".$row['apellido'];
+		$codcliente=$row['codcliente'];
+	}	
+		$criterio="";
+		
+		 /*echo $message."<br>------------------<p>";*/ 
+$pos = strpos($message,"-");
+$Fecha = trim(substr($message, $pos-2,10));
+
+		 
+$FechaAux = cambiaf_barra($Fecha);
+
+$FechaAux = cambiaf_a_mysql($FechaAux);
+		 
+$pos = strpos($message,"'Copia de seguridad diaria'");
+		
+$rest = substr($message, $pos);
+
+$rest = str_replace("'",'|',$rest);
+$Detalle=explode("|", $rest);
+	
+	$equipo=explode(".", $Detalle[3])[0];
+
+$pos = strpos($message,"530");
+if ($pos !== false) {
+ 	$Errores=1;
+ 	$Procesados=0;
+ 	$Respaldados=0;
+}
+$pos = strpos($message,"230");
+if ($pos !== false) {
+ 	$Errores=0;
+ 	$Procesados=1;
+ 	$Respaldados=1;
+}
+
+//Archivos Respaldados:
+
+$Tamano=extract_unit($message, "Tamaño:", "/");
+
+ 	$Tarea=$Detalle[1];
+		
+	//$message=str_replace("'", "|", $message);
+	$message=mysql_real_escape_string($message);
+
+	if ($codcliente>0){
+	$con_check=0;	
+	$check="SELECT * FROM `respaldospc` WHERE `fecha` = '".$FechaAux."' AND `tarea` LIKE '".$Tarea."' AND `errores` like '".$Errores."'
+	AND `procesados` ='".$Procesados."' AND `respaldados` ='".$Respaldados."' AND `codcliente` ='".$codcliente."' AND
+	`usuario` LIKE '".$EquipoUsuario."'";	
+		
+	//echo $check."<br>";
+	$con_check=mysql_query($check);
+	
+		if (mysql_num_rows($con_check) ==0){	
+		mysql_query("BEGIN");
+
+		$sql="INSERT INTO `respaldospc` 
+		(`codrespaldos`, `fecha`, `message`, `tarea`, `errores`, `procesados`, `respaldados`, `tamano`, `codcliente`, `usuario`, `version`)
+		 VALUES (NULL, '".$FechaAux."', '".$message."', '".$Tarea."', '".$Errores."', '".$Procesados."', '".$Respaldados."', '".$Tamano."', '".$codcliente."',
+		  '".$EquipoUsuario."', '".$version."')";
+		 /*echo "+++ ".$sql."<br>";*/
+				$cons=mysql_query($sql);
+				if ($cons == false){
+					$Falla.=mysql_error($conectar);
+					echo "Error al guardar datos MCC ". $Falla."<br>";
+					mysql_query("ROLLBACK");
+					$save="No";
+				} else {
+					mysql_query("COMMIT");		
+					$save="Si";	
+					$MccCount++;
+				}
+		} else {
+		$save="existe";	
+		}
+	}
+
+
+	}
+	$save="No";
+	$Tam="";
+	$Errores="";
+	$Tamano="";
+	$Fecha="";
+	$Tarea="";
+	$Respaldados="";
+	$Procesados="";
+	$version="";
+	$clientenom="";		
+	$codcliente="";		
+		    $appearsCount = 0;   
+		    $pos=0;
+		    $stopI=0;
+		    $startI=0;
+		    $Falla="";
+		    $codcliente='';
+		    $message='';
+/****************** Fin MCC ******************/
+   
+   
+} elseif ($found===2) {
+/////////////////// Acronis /////////////////////
+$NombreCliente=explode("-", $Equipo);
+$buscar=$NombreCliente[0];
+$EquipoUsuario=$NombreCliente[1];
+
+
+if (!empty($buscar)) { 
+$sql_cliente="SELECT * FROM  `clientes` WHERE  `empresa` LIKE  '%".$buscar."%'";
+
+	//echo $sql_cliente."<br>";
+	$con_cliente=mysql_query($sql_cliente);
+	if ($row=mysql_fetch_array($con_cliente)) {
+		$clientenom=$row['nombre']." ".$row['apellido'];
+		$codcliente=$row['codcliente'];
+	}	
+		$criterio="";
+		
+		 /*echo $message."<br>------------------<p>";*/ 
+$pos = strpos($message,"/");
+//echo "<br>";
+$Fecha = trim(substr($message, $pos-2,10));
+//echo "<br>";		 
+		 
+/*if (strpos($EquipoUsuario, "2") >0 ) {
+$FechaAux = cambiaf_orden($Fecha);
+} else {	*/	 
+$FechaAux = $Fecha;
+//}
+$FechaAux = cambiaf_a_mysql($FechaAux);
+
+$pos = strpos($message,"'Copia de seguridad diaria'");
+		
+$rest = substr($message, $pos);
+
+$rest = str_replace("'",'|',$rest);
+$Detalle=explode("|", $rest);
+	
+	$equipo=explode(".", $Detalle[3])[0];
+	$Errores=$Detalle[2];
+	$Tarea=$Detalle[1];
+		
+	//$message=str_replace("'", "|", $message);
+	$message=mysql_real_escape_string($message);
+
+	if ($codcliente>0){
+	$con_check=0;	
+	$check="SELECT * FROM `respaldospc` WHERE `fecha` = '".$FechaAux."' AND `tarea` LIKE '".$Tarea."' AND `errores` like '".$Errores."'
+	AND `procesados` ='".$Procesados."' AND `respaldados` ='".$Respaldados."' AND `codcliente` ='".$codcliente."' AND
+	`usuario` LIKE '".$EquipoUsuario."'";	
+		
+	//echo $check."<br>";
+	$con_check=mysql_query($check);
+	
+		if (mysql_num_rows($con_check) ==0){	
+		mysql_query("BEGIN");
+
+		$sql="INSERT INTO `respaldospc` 
+		(`codrespaldos`, `fecha`, `message`, `tarea`, `errores`, `procesados`, `respaldados`, `tamano`, `codcliente`, `usuario`, `version`)
+		 VALUES (NULL, '".$FechaAux."', '".$message."', '".$Tarea."', '".$Errores."', '".$Procesados."', '".$Respaldados."', '".$Tamano."', '".$codcliente."',
+		  '".$EquipoUsuario."', '".$version."')";
+		/* echo "+++ ".$sql."<br>";*/
+				$cons=mysql_query($sql);
+				if ($cons == false){
+					$Falla.=mysql_error($conectar);
+					echo "Error al guardar datos Acronis ". $Falla."<br>";
+					mysql_query("ROLLBACK");
+					$save="No";
+				} else {
+					mysql_query("COMMIT");		
+					$save="Si";	
+					$AcroniCount++;
+				}
+		} else {
+		$save="existe";	
+		}
+	}
+
+
+	}
+	$save="No";
+	$Tam="";
+	$Errores="";
+	$Tamano="";
+	$Fecha="";
+	$Tarea="";
+	$Respaldados="";
+	$Procesados="";
+	$version="";
+	$clientenom="";		
+	$codcliente="";		
+		    $appearsCount = 0;   
+		    $pos=0;
+		    $stopI=0;
+		    $startI=0;
+		    $Falla="";
+		    $codcliente='';
+		    $message='';
+		    $FechaAux='';
+/****************** Fin Acronis ******************/
+/****************** Empieza Cobian ***************/
+} elseif ($found===1) {
+	
+		//echo $message."<br>--------------------<p>"; 	 		 
+	
+	
+ $NombreCliente=explode("-", $cliente);
+ $buscar=$NombreCliente[0];
+
+ $EquipoUsuario=$NombreCliente[1];
+
+
+if (!empty($buscar)) { 
+$sql_cliente="SELECT * FROM  `clientes` WHERE  `empresa` LIKE  '%".$buscar."%'";
+
+	$con_cliente=mysql_query($sql_cliente);
+	if ($row=mysql_fetch_array($con_cliente)) {
+		$clientenom=$row['nombre']." ".$row['apellido'];
+		$codcliente=$row['codcliente'];
+	}	
+		$criterio="";
+	
+		
+		foreach($items as $item)
+		{
+		$string=$message;
+		 $t_message=$message;
+	    $Count=0;
+	    $appearsCount += substr_count($string, $item);
+		/*/ echo "<br>--$item aparece $appearsCount veces<br>";*/
+	 
+		 
+			$startIni=0;
+			for ($Count=1;$Count<=$appearsCount;$Count++) {
+				$xz++;
+				$save="No";
+			/*/echo "<br>-> ";*/
+			$fin=strlen($string);
+			$stop="*"; 
+			$startI = strpos($string, $item); 
+			$stopI = strpos($string, $stop, $startI+4); 
+			
+			if ($stopI > $startI) 
+			   $vero=substr($string, $startI-$aux, $stopI - $startI+$aux)." <br>------<p>";
+				$Fecha=extract_unit($vero, "", " *");
+				$FechaAux=trim(substr($Fecha, 0,10));
+				
+				$Fecha= cambiaf_a_normal(substr($Fecha, 0,10));
+				$Tarea= extract_unit($vero, "\"", "\"");
+	
+				$Errores=extract_unit($vero, "Errores:", " ");
+				
+				if (empty($Errores)){
+				$Errores=extract_unit($vero, "Errores:", ".");
+				}
+				$Procesados =extract_unit($vero, "Ficheros procesados:", ".");
+				$Respaldados=extract_unit($vero, "Ficheros respaldados:", ".");
+				
+				$Tam=extract_unit($vero, " Tamaño total: ", "bytes");
+				$Tamano=$Tam." bytes";
+				if (empty($Tam)) {
+				$Tam=extract_unit($vero, " Tamaño total: ", "KB");
+				$Tamano=(int)$Tam." KB";
+				}
+				if (empty($Tam)) {
+				$Tam=extract_unit($vero, " Tamaño total: ", "MB");
+				$Tamano=(int)$Tam." MB";
+				}
+				if (empty($Tam)) {
+				$Tam=extract_unit($vero, " Tamaño total: ", "GB");
+				$Tamano=(int)$Tam." GB";
+				}
+				if (empty($Tam)) {
+				$Tamano=" 0 bytes ";
+				}
+			$string=substr($string, $stopI, $fin);   
+			if ($Errores>0) {
+				$Alerta="red";
+			} else {
+				$Alerta="";
+			}
+			/*echo $codcliente." --- Errores ".$Errores."<br>";*/
+			if ($Errores==1){
+		 /*echo $message."<br>--------------------<p>";*/ 				
+				if(strpos($message, "ya existe")!==false){
+					
+				$Errores=0;
+				}
+			}
+	/*//////////*****************************************/
+	$Errores=(int)$Errores;
+	$Procesados=(int)$Procesados;
+	$Respaldados=(int)$Respaldados;
+
+ if (strlen($t_message) > 200001 ) {
+	$message=str_replace("'", "|", $string);
+	$Errores="Mensaje generado por cobian demasiado largo";
+ } else {
+	$message=str_replace("'", "|", $t_message); 
+ }
+	$message=mysql_real_escape_string( $message);
+
+	if ($codcliente>0){
+	$con_check=0;	
+	$check="SELECT * FROM `respaldospc` WHERE `fecha` = '".$FechaAux."' AND `tarea` LIKE '".$Tarea."' AND `errores` like '".$Errores."'
+	AND `procesados` ='".$Procesados."' AND `respaldados` ='".$Respaldados."' AND `codcliente` ='".$codcliente."' AND
+	`usuario` LIKE '".$EquipoUsuario."' ";	
+
+	$con_check=mysql_query($check);
+		if (mysql_num_rows($con_check) == false){	
+		mysql_query("BEGIN");
+		$sql="INSERT INTO `respaldospc` 
+		(`codrespaldos`, `fecha`, `message`, `tarea`, `errores`, `procesados`, `respaldados`, `tamano`, `codcliente`, `usuario`, `version`)
+		 VALUES (NULL, '".$FechaAux."', '".$message."', '".$Tarea."', '".$Errores."', '".$Procesados."', '".$Respaldados."', '".$Tamano."', '".$codcliente."',
+		  '".$EquipoUsuario."', '".$version."')";
+		 /*echo "+++ ".$sql."<br>";*/
+				$cons=mysql_query($sql);
+				if ($cons == false){
+					$Falla.=mysql_error($conectar);
+					
+					echo "Error al guardar datos Cobian ". $Falla;
+				
+					
+					mysql_query("ROLLBACK");
+					$save="No";
+				} else {
+					mysql_query("COMMIT");		
+					$save="Si";	
+					$CobianCount++;
+				}
+		} else {
+		 $save="existe";	
+		}
+	}
+	
+	
+	$save="No";
+	$Tam="";
+	$Errores="";
+	$Tamano="";
+	$Fecha="";
+	$Tarea="";
+	$Respaldados="";
+	$Procesados="";
+	/*/////////*****************************************/
+			}
+	$version="";
+	$clientenom="";		
+	$codcliente="";		
+		    $appearsCount = 0;   
+		    $pos=0;
+		    $stopI=0;
+		    $startI=0;
+		    $Falla="";
+		    $codcliente='';
+		    
+		}
+		$very=0;
+	}
+	$message="";
+}
+
+		if ($totalmessagecount>40 and $i<($totalmessagecount -37)){
+			imap_delete($connection, $i);
+		}
+
+	}
+
+	imap_expunge($connection);
+	imap_close($connection);
+
+echo "Cantidad Respaldos MCC ". $MccCount. "<br>";
+echo "Cantidad Respaldos Cobian ". $CobianCount. "<br>";
+echo "Cantidad Respaldos Acronis ". $AcroniCount;
+
+}
+
+
+?>

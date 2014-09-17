@@ -1,0 +1,6 @@
+<?php
+$Usuario="root";  /*root*/
+$Password="mcc123mcc";
+$Servidor="localhost"; /*localhost*/
+$BaseDeDatos="codeka";
+?>
